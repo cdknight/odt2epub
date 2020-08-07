@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "2epub"
+name = "odt2epub"
 version = "0.1.0"
 description = ""
 authors = ["Ramesh Balaji>"]

@@ -1,0 +1,64 @@
+= odt2epub
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+A simple yet extremely opinionated tool to conver ODT files (perhaps... from LibreOffice) to EPUBs.
+
+== Why?
+
+I was writing a book in LibreOffice (which was, well, _probably_ not the best idea).
+The LibreOffice document got really long, and with that length came an increase in formatting issues, like font inconsistencies, line spacing woes, and all sorts of annoying problems. In the end,
+I wanted a solution that just converted my LibreOffice document to EPUB while adding some metadata, and since it was a book, chapters. Unfortunately, nothing I tried out of the box preserved
+those chapter boundaries while also stripping out that broken formatting, so I just made a kind-of hacky script to do this.
+
+== How Does it Work?
+
+(Yes, it's a lot. Maybe too much.)
+
+Once fed the ODT file, odt2epub does the following:
+
+* Converts the ODT to HTML
+* Converts the HTML to Markdown
+* Splits the Markdown into chapter sections based on a customizable regex pattern (You can see how to do this in the <<Usage>> section.)
+* Adds titles to the Markdown
+* Injects specified `pandoc` metadata from the config file
+* Joins the metadata and the markdown chapters together and exports to `epub` using `pandoc`.
+
+== Usage
+
+NOTE: Make sure you have `pandoc` installed, otherwise the program won't work.
+
+This program uses the package manager `poetry`, so you'll need that installed. You can refer to https://python-poetry.org/docs/#installation[this link] to learn how to do that. Once you've
+installed `poetry`, go ahead and install the dependencies with `poetry install`.
+
+Once you've done that, go ahead and copy `config.yaml.template` over to `config.yaml`. In there, you should edit the `chapter_regex_string` to suit your needs, and update all the `metadata` fields.
+You should also make the `assets` directory and copy over a cover there, or delete the `cover-image` property in `metadata` if you don't want a cover.
+
+NOTE: The entire `metadata` section is copied over for `pandoc` to use, so you can add whatever `pandoc` supports for metadata in there. I've **also** made it so that if the value `toc` is `true`
+in the `metadata` section, as you'll see is the case in `config.yaml.template`, which I take is **not** something pandoc supports from metadata (it's a command line argument),
+odt2epub will add a table of contents to your final epub.
+
+After you've made your changes to `config.yaml` and copied over your book cover, and all that, you can go ahead and run the program. The converter script takes two arguments: the first being
+the path to the input ODT file and the second being the path to where you want the output EPUB file.
+
+[source,bash]
+----
+poetry run python converter.py path/to/file.odt path/to/output.epub
+----
+
+And that's it! You'll see some verbose output telling you the status of the script, and in the end, if there are no issues, it'll exit and you'll have your EPUB!
+
+== To-do List
+
+As always, there are some thing I'd like to add/modify in the future, so I'll document them here.
+
+* [ ] Custom chapter titles based on chapter number, as specified in the config file.
+* [ ] Custom CSS for EPUBs specified through `config.yaml`
+* [ ] Move the `toc` option to the base-level of the config file
+
+And of course, probably more. But that's it for now.
