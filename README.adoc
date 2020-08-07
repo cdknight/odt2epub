@@ -31,7 +31,7 @@ Once fed the ODT file, odt2epub does the following:
 
 == Usage
 
-NOTE: Make sure you have `pandoc` installed, otherwise the program won't work.
+WARNING: Make sure you have `pandoc` installed, otherwise the program won't work.
 
 This program uses the package manager `poetry`, so you'll need that installed. You can refer to https://python-poetry.org/docs/#installation[this link] to learn how to do that. Once you've
 installed `poetry`, go ahead and install the dependencies with `poetry install`.
