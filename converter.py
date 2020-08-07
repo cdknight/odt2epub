@@ -21,6 +21,7 @@ def md_to_epub(odt_md):
         print(colored("stage 4: ", "blue") + "modify and output mdfiles for pandoc processing")
         for i, separate in enumerate(separators):
             print(colored("\texport: ", "yellow") + f"processing chapter {i+1} for final epub export")
+            separate = re.sub(r"^\*\*$", '', separate, flags=re.MULTILINE) # Clean up annoying double-asterisks that get rendered because of messy markdown
             separate = f"# Chapter {i+1}\n\n" + separate + "\n\n"
             render_md += separate
 
@@ -33,8 +34,10 @@ def md_to_epub(odt_md):
 
         print(colored("stage 6: ", "blue") + "convert document to epub")
         extra_args = []
-        if config['metadata'].get('toc'):
-            extra_args = ['--toc']
+        if config.get('toc'):
+            extra_args.append('--toc')
+        if config.get('css'):
+            extra_args.append(f"--css={config.get('css')}")
 
         pypandoc.convert_text(render_md, 'epub', format="md", outputfile=output_epub, extra_args=extra_args)
         print(colored("Exported", "green") + f" {input_odt} to {output_epub}. Enjoy!")

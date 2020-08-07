@@ -1,7 +1,9 @@
 chapter_regex_string: 'Chapter \d+'
+toc: true
+css: assets/styles.css
+
 metadata:
   title: Title Here
   language: en-US
   author: Author Here
   cover-image: assets/cover.png
-  toc: true

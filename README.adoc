@@ -39,9 +39,10 @@ installed `poetry`, go ahead and install the dependencies with `poetry install`.
 Once you've done that, go ahead and copy `config.yaml.template` over to `config.yaml`. In there, you should edit the `chapter_regex_string` to suit your needs, and update all the `metadata` fields.
 You should also make the `assets` directory and copy over a cover there, or delete the `cover-image` property in `metadata` if you don't want a cover.
 
-NOTE: The entire `metadata` section is copied over for `pandoc` to use, so you can add whatever `pandoc` supports for metadata in there. I've **also** made it so that if the value `toc` is `true`
-in the `metadata` section, as you'll see is the case in `config.yaml.template`, which I take is **not** something pandoc supports from metadata (it's a command line argument),
-odt2epub will add a table of contents to your final epub.
+NOTE: The entire `metadata` section is copied over for `pandoc` to use, so you can add whatever `pandoc` supports for metadata in there. 
+
+NOTE: There is an option `toc` in the root level of `config.yaml.template`. If it is set to `true`, then `pandoc` will render a table of contents. **Likewise**, if you set 
+the value for `css` in `config.yaml.template` (or use the sample css file already provided), `pandoc` will generate the epub with that specified CSS.
 
 After you've made your changes to `config.yaml` and copied over your book cover, and all that, you can go ahead and run the program. The converter script takes two arguments: the first being
 the path to the input ODT file and the second being the path to where you want the output EPUB file.
@@ -58,7 +59,7 @@ And that's it! You'll see some verbose output telling you the status of the scri
 As always, there are some thing I'd like to add/modify in the future, so I'll document them here.
 
 * [ ] Custom chapter titles based on chapter number, as specified in the config file.
-* [ ] Custom CSS for EPUBs specified through `config.yaml`
-* [ ] Move the `toc` option to the base-level of the config file
+* [x] Custom CSS for EPUBs specified through `config.yaml`
+* [x] Move the `toc` option to the base-level of the config file
 
 And of course, probably more. But that's it for now.
